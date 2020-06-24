@@ -4,6 +4,7 @@ Program Synthesis
 
 
 **How to install Z3 for Windows**
+
 Used on 64bit system with Visual Studio Community Edition 2019, and Z3 version 4.8.8 64bit
 ### Step 1:
 Download Z3
