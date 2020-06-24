@@ -4,6 +4,7 @@ Program Synthesis
 
 
 **How to install Z3 for Windows**
+Used on 64bit system with Visual Studio Community Edition 2019, and Z3 version 4.8.8 64bit
 ### Step 1:
 Download Z3
 
@@ -21,7 +22,7 @@ In Configuartion properties, in debugging, double click environment and enter th
 
 ### Step 6:
 In Linker, in Input, click additional dependencys and in the dropdown menu select edit. Here, past in the following directory:C:\Users\user1\Desktop\z3-4.8.8-x64-win\bin\libz3.lib
-
+ ve
 ### Step 7 (May not be applicable):
 Open z3++.h, and there will be a line that includes z3.h. Change <z3.h> to "z3.h", replacing the <> with quotation marks.
 
