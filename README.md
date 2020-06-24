@@ -22,7 +22,7 @@ At top of page, you should select x64 as Platform. Then click configuration mana
 In Configuartion properties, in debugging, double click environment and enter the following directory:PATH=%PATH%;C:\Users\[YourUsername]\Desktop\z3-4.8.8-x64-win\bin\
 
 ### Step 6:
-In Linker, in Input, click additional dependencys and in the dropdown menu select edit. Here, past in the following directory:C:\Users\user1\Desktop\z3-4.8.8-x64-win\bin\libz3.lib
+In Linker, in Input, click additional dependencys and in the dropdown menu select edit. Here, past in the following directory:C:\Users\[YourUsername]\Desktop\z3-4.8.8-x64-win\bin\libz3.lib
  ve
 ### Step 7 (May not be applicable):
 Open z3++.h, and there will be a line that includes z3.h. Change <z3.h> to "z3.h", replacing the <> with quotation marks.
