@@ -163,9 +163,6 @@ void tree(Node* HeadPtr)
             int intval = std::stoi(stringval);
             vals.push_back(vars[std::stoi(v.name().str())] != intval);
             std::cout  <<v.name()<<" "<< intval << std::endl;
-
-
-
         }
        
         s.add(mk_or(vals));
