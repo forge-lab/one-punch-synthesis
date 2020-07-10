@@ -31,7 +31,8 @@ public:
     Type Output;
     std::vector<Type> Inputs;
     int ID;
-    Component(std::string N, Type O, std::vector<Type> I, int J) :Name(N), Output(O), Inputs(I), ID(J) {};
+    bool isLine;
+    Component(std::string N, Type O, std::vector<Type> I, int J,bool B = true) :Name(N), Output(O), Inputs(I), ID(J), isLine(B) {};
 };
 
 class DSL
@@ -45,16 +46,16 @@ public:
     DSL(Type R)
     {
         //Creating all components
-        Components.push_back(Component("Empty", Type::EMPTY, std::vector<Type>(), 0)); //Empty component
+        Components.push_back(Component("Empty", Type::EMPTY, std::vector<Type>(), 0,false)); //Empty component
         Components.push_back(Component("Take", Type::LIST, std::vector<Type>{Type::LIST, Type::INTEGER}, 1)); //Take component
         Components.push_back(Component("Sort", Type::LIST, std::vector<Type>{Type::LIST}, 2)); //Sort component
         Components.push_back(Component("Sum", Type::INTEGER, std::vector<Type>{Type::LIST}, 3)); //Sum component
-        Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4)); //B List component
-        Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5)); //K Integer component
-
+        Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false)); //B List component
+        Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5,false)); //K Integer component
 
         //takes about 10 minutes to generate 21741 programs, not using the ones numbered 6-12
-        /*
+        
+        
         Components.push_back(Component("Reverse", Type::LIST, std::vector<Type>{Type::LIST}, 6));
         Components.push_back(Component("Head", Type::INTEGER, std::vector<Type>{Type::LIST}, 7));
         Components.push_back(Component("Last", Type::INTEGER, std::vector<Type>{Type::LIST}, 8));
@@ -62,10 +63,10 @@ public:
         Components.push_back(Component("Access", Type::INTEGER, std::vector<Type>{Type::LIST,Type::INTEGER}, 10));
         Components.push_back(Component("Minimum", Type::INTEGER, std::vector<Type>{Type::LIST}, 11));
         Components.push_back(Component("Maximum", Type::INTEGER, std::vector<Type>{Type::LIST}, 12));
-        */
-
+        
+        
         //Functions for HOF Map
-        /*
+     
         Components.push_back(Component("AddOneLambda", Type::LAMBDA_INT, std::vector<Type>{}, 13));
         Components.push_back(Component("SubOneLambda", Type::LAMBDA_INT, std::vector<Type>{}, 14));
         Components.push_back(Component("Mult2Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 15));
@@ -97,7 +98,7 @@ public:
         Components.push_back(Component("ScanL1Mult", Type::LIST, std::vector<Type>{Type::LIST}, 37));
         Components.push_back(Component("ScanL1Min", Type::LIST, std::vector<Type>{Type::LIST}, 38));
         Components.push_back(Component("ScanL1Max", Type::LIST, std::vector<Type>{Type::LIST}, 39));
-        */
+        
         //MaxInputs keeps track of the maximum number of inputs a component can have
         MaxInputs = 0;
         for (auto a : Components)

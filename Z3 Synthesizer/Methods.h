@@ -9,19 +9,67 @@ class Methods
 private:
 
 public:
-	//use function for functions that are LIST OUTPUT, and LIST & INT INPUT
+	/*
+	Create separate class that takes in the DSL. Add new value to components, function pointer. Methods class should go
+	through all components in DSL and for each component, add that function pointer (and associated ID) to the correct
+	vector that cointains the functions of that particular type, I_LI, or I_L, L_L, etc
+	
+	*/
 	std::vector<int> UseFunctionL_LI(int ID, std::vector<int> IN1,int IN2)
 	{
-		if (ID == 1)
+		switch (ID)
+		{
+		case 1:
 			return Take(IN1, IN2);
-		else if (ID == 2)
-			return Sort(IN1);
+			break;
+		case 9:
+			return Drop(IN1, IN2);
+		}
+	}
+	int UseFunctionI_LI(int ID, std::vector<int> IN1,int IN2)
+	{
+		switch (ID)
+		{
+		case 10:
+			return Access(IN1, IN2);
+		}
 	}
 	int UseFunctionI_L(int ID, std::vector<int> IN1)
 	{
-		if (ID == 3)
+		switch (ID)
+		{
+		case 3:
 			return Sum(IN1);
+			break;
+		case 7:
+			return Head(IN1);
+			break;
+		case 8:
+			return Last(IN1);
+			break;
+		case 11:
+			return Minimum(IN1);
+			break;
+		case 12:
+			return Maximum(IN1);
+			break;
+
+		}
 	}
+	std::vector<int> UseFunctionL_L(int ID, std::vector<int> IN1)
+	{
+		switch (ID)
+		{
+		case 2:
+			return Sort(IN1);
+			break;
+		case 6:
+			return Reverse(IN1);
+			break;
+			
+		}
+	}
+
 
 
 
@@ -39,11 +87,19 @@ public:
 		std::vector<decltype(in1)::value_type>(in1.begin() + in2, in1.end()).swap(in1);
 		return in1;
 	}
-	int Access(std::vector<int> in1, int in2)
+	int Access(std::vector<int> in1, int in2) //problem with access???
 	{
 		if (in2 >= in1.size())
 			return NULL;
-		return in1[int(1) + int(in2)]; //why is there an underline here? what 4 bytes?
+		return in1[int(1) + int(in2)]; 
+	}
+	int Head(std::vector<int> in1)
+	{
+		return in1.size() ? in1[0] : 0;
+	}
+	int Last(std::vector<int> in1)
+	{
+		return in1.size() ? in1[in1.size() - 1] : 0;
 	}
 	int Minimum(std::vector<int> in1)
 	{
@@ -202,7 +258,7 @@ public:
 		}
 		return i;
 	}
-	int CountGZ(std::vector<int> in1) //Keeps evens
+	int CountGZ(std::vector<int> in1) 
 	{
 		int i = 0;
 		for (std::vector<int>::iterator it = in1.begin(); it != in1.end(); it++)
@@ -212,7 +268,7 @@ public:
 		}
 		return i;
 	}
-	int CountLZ(std::vector<int> in1) //Keeps evens
+	int CountLZ(std::vector<int> in1) 
 	{
 		int i = 0;
 		for (std::vector<int>::iterator it = in1.begin(); it != in1.end(); it++)

@@ -15,51 +15,77 @@ using namespace z3;
 choose json parser for C++
 https://github.com/nlohmann/json#examples
 
+
 [funcname] Haskell
 
 Questions:
-1) Should we minimize the number of rules we give Z3? For example, it would be beneficial for it to not repeat functions such as sort.
-Adding a new rule that for every node, if it is sort, then its child cannot be sort, would make Z3 have to do a lot of checks, than if it just
-made a few extra trees. What would be better option?
-
-2) Making generic placeholder for similar functions. For example, for all functions that take a list and return a list, lets
-make one single placeholder for them during enumerator. Then during the program testing framework, test all the functions that correspond
-to that placeholder. We can have the DSL constructor handle this so the user can enter whatever functions they want
-Going from 6 components to 13, the number of trees increased from 11 to 5347. This number can be significantly
-reduced by having placeholder functions for similar components
 
 
 3) Is there a scenario where repeating the same function wil give us a new result?
 
+
 */
 
 /*
+todo:
+make testing framework modular
+try examples
+manually write list of properties that could be used for pruning (min,max,first,last,size,unique)
+look at json thing,
+
+*/
+/*
+1) Create two-phase solver
+2) Add multiple testing cases for test framework
+3) Fix access??
+
+*/
+/*
 Bug 1: Minimum will return 0 both if the smallest element is 0, and if the vector is empty. In C++,  NULL evaluates to zero
+//in this case, make the current enumerated program as false
 
 Warning 1: For some of the functions, it complains about doing operations with two integers. Something about uisng 4 bytes vs 8 bytes?
+
+Issue: Need to make Methods more modular, expand to include full DSL
 */
 
+/*
+use chrono to time for each enum
+https://sat-group.github.io/ruben/papers/pldi18.pdf
+section 1/2
+
+*/
+
+/*
+Add restriction that forces solver to use ALL inputs at least once (B and K in this case)
 
 
-void tree(const DSL& MyDSL, Type ResultType,int OUTPUT,std::vector<int> INPUTLIST,int INPUTNUM)
+*/
+
+bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<int> INPUTLIST, int INPUTNUM)
 {
 
     std::unordered_map<int, int> RESULTS;
     int MaxInputs = MyDSL.MaxInputs;
+    int MaxLines = maxL;
 
-
-    Trie MyTree(3, MaxInputs); //Depth of 3 is hardcoded, number of children is not
+    Trie MyTree(MaxLines, MaxInputs); //Depth of 3 is hardcoded, number of children is not
     Node* HeadPtr = MyTree.returnhead();
     assert(HeadPtr);
 
     context c;
     solver s(c);
     std::vector<expr> vars; //all variables used by Z3
+
+
+
+
     expr_vector validcomponents(c); //vector of predicates
 
 
 
     int i = 0; //used to keep track of how many variables are created
+
     int inputs_assigned = 0; //used to keep track of how many inputs have been assigned to particular node so far
     std::queue<Node*> NodeQueue; //used to iterate through trie
     Node* CurrPtr;
@@ -72,6 +98,7 @@ void tree(const DSL& MyDSL, Type ResultType,int OUTPUT,std::vector<int> INPUTLIS
     NodeQueue.push(HeadPtr); //start with headptr
 
     vars.push_back(c.int_const(std::to_string(i).c_str()));
+
     map[HeadPtr] = 0;
 
     s.add(vars[i] >= 0 && vars[i] <= int(MyDSL.Components.size())); // All nodes must have valid ID, i.e. 0 to 5
@@ -102,12 +129,16 @@ void tree(const DSL& MyDSL, Type ResultType,int OUTPUT,std::vector<int> INPUTLIS
 
     while (!NodeQueue.empty())
     {
+
+
+
+
         CurrPtr = NodeQueue.front();
         NodeQueue.pop();
 
         if (CurrPtr->Children.size() == 0)//LEAF NODE
         {
-            
+
             validcomponents.resize(0);
             for (auto a : MyDSL.Components)
             {
@@ -122,6 +153,7 @@ void tree(const DSL& MyDSL, Type ResultType,int OUTPUT,std::vector<int> INPUTLIS
                     validcomponents.push_back(vars[map[CurrPtr]] == a.ID); //can only be component that takes in no input
                 }
             }
+
             s.add(mk_or(validcomponents));
 
         }
@@ -166,7 +198,56 @@ void tree(const DSL& MyDSL, Type ResultType,int OUTPUT,std::vector<int> INPUTLIS
     int count = 0;
     std::cout << s.check() << std::endl;
     bool solved = false;
-    while (s.check() == sat && !solved)
+ /*
+ depth = lines of code;
+ */
+
+
+
+    //lines of code
+    //needs to be modulized
+    expr_vector vars_i(c);
+    expr_vector haslines(c);
+    expr_vector nolines(c);
+    
+    
+
+
+    for (int i = 0; i < vars.size(); i++)
+    {
+        vars_i.push_back(c.int_const(("i" + std::to_string(i)).c_str()));
+        haslines.resize(0);
+        nolines.resize(0);
+        for (auto a : MyDSL.Components)
+        {
+            if (a.isLine)
+            {
+                haslines.push_back(vars[i] == a.ID);
+            }
+            else
+                nolines.push_back(vars[i] == a.ID);
+        }
+
+     
+        
+
+        s.add(implies(mk_or(haslines), vars_i[i] == 1));
+        s.add(implies(mk_or(nolines), vars_i[i] == 0));
+        
+
+        
+        //s.add(implies(vars[i] == 1 || vars[i] == 2 || vars[i] ==3|| vars[i] == 6 || vars[i] == 7 || vars[i] == 8 || vars[i] == 9 || vars[i] == 10 || vars[i] == 11 || vars[i] == 12 , vars_i[i] == 1));
+        //s.add(implies(vars[i] == 0 || vars[i] == 4 || vars[i] == 5, vars_i[i] == 0));
+    }
+    s.add(sum(vars_i) == MaxLines);
+
+
+
+
+
+    /*
+    */
+    while (s.check() == sat && !solved)//
     {
         count++;
         model m = s.get_model();
@@ -179,45 +260,55 @@ void tree(const DSL& MyDSL, Type ResultType,int OUTPUT,std::vector<int> INPUTLIS
             func_decl v = m[i];
             assert(v.arity() == 0);
 
-            std::string stringval = m.get_const_interp(v).to_string();
-            int intval = std::stoi(stringval);
-            vals.push_back(vars[std::stoi(v.name().str())] != intval);
-            //std::cout  <<v.name()<<" "<< intval << std::endl;
-            RESULTS[std::stoi(v.name().str())] = intval;
+            // if(v.name().str()[0] == 'i')
+              //   std::cout << v.name().str() << std::endl;
+
+            if (v.name().str()[0] != 'i')
+            {
+                std::string stringval = m.get_const_interp(v).to_string();
+                int intval = std::stoi(stringval);
+                vals.push_back(vars[std::stoi(v.name().str())] != intval);
+                //std::cout << v.name() << " " << intval << std::endl;
+                RESULTS[std::stoi(v.name().str())] = intval;
+            }
 
 
         }
         fIDs.clear();
-        for (int k = 0; k < m.size(); k++)
+        for (int k = 0; k < m.size() / 2; k++)
         {
             //std::cout << k << ' ';
             for (auto a : MyDSL.Components)
+            {
                 if (a.ID == RESULTS[k])
                 {
-                    //std::cout << a.Name << std::endl;
+                   // std::cout << a.Name << std::endl;
                     fIDs.push_back(a.ID);
                 }
+            }
 
         }
         AssignIDs(MyTree, fIDs);
-        solved = testing(MyTree,OUTPUT,INPUTLIST,INPUTNUM);
+        solved = testing(MyTree, OUTPUT, INPUTLIST, INPUTNUM);
         if (solved)
         {
-            for (int k = 0; k < m.size(); k++)
+            for (int k = 0; k < m.size() / 2; k++)
             {
                 std::cout << k << ' ';
                 for (auto a : MyDSL.Components)
                     if (a.ID == RESULTS[k])
                     {
                         std::cout << a.Name << std::endl;
-                        
+
                     }
 
             }
+            return true;
         }
         s.add(mk_or(vals));
     }
     std::cout << count << std::endl;
+    return false;
 }
 
 
@@ -229,6 +320,7 @@ void run()
     int INPUTNUM = 2;
     MyDSL.print();
     std::cout << std::endl;
+    bool solved = false;
 
 
     //print matches
@@ -248,8 +340,12 @@ void run()
     }
     std::cout << std::endl;
 
-
-    tree(MyDSL, Type::INTEGER,OUTPUT,INPUTLIST,INPUTNUM);
+    int iMax = 1;
+    while (!solved)
+    {
+        solved = tree(iMax,MyDSL, Type::INTEGER, OUTPUT, INPUTLIST, INPUTNUM);
+        iMax++;
+    }
 }
 
 
@@ -259,7 +355,6 @@ int main()
 
 
     run();
-
 
 
 

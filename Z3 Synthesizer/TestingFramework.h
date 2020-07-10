@@ -8,6 +8,8 @@
 
 bool testing(Trie& T,int OUTPUT,std::vector<int> INPUTLIST,int INPUTNUM)
 {
+
+    //int StartingDepth=
     Methods MyMethods;
     std::queue<Node*> MyQueue;
     std::stack<Node*> MyStack;
@@ -35,23 +37,128 @@ bool testing(Trie& T,int OUTPUT,std::vector<int> INPUTLIST,int INPUTNUM)
         case 0:
             CurrPtr->DataInt = 0;
             break;
-        case 1:
-            CurrPtr->DataList = MyMethods.UseFunctionL_LI(1, CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataInt);
-            break;
-        case 2:
-            CurrPtr->DataList = MyMethods.UseFunctionL_LI(2, CurrPtr->Children[0]->DataList, 0);
+        case 1 || 9:
+            CurrPtr->DataList = MyMethods.UseFunctionL_LI(CurrPtr->FuncID, CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataInt);
             break;
         case 3:
-            CurrPtr->DataInt = MyMethods.UseFunctionI_L(3, CurrPtr->Children[0]->DataList);
+        case 7:
+        case 8:
+        case 11:
+        case 12:
+            CurrPtr->DataInt = MyMethods.UseFunctionI_L(CurrPtr->FuncID, CurrPtr->Children[0]->DataList);
             break;
         case 4:
             CurrPtr->DataList = INPUTLIST;
             break;
         case 5:
             CurrPtr->DataInt = INPUTNUM;
-
+            break;
+        case 10:
+            CurrPtr->DataInt = MyMethods.UseFunctionI_LI(CurrPtr->FuncID, CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataInt);
+            break;
+        case 2:
+            CurrPtr->DataList = MyMethods.UseFunctionL_L(CurrPtr->FuncID, CurrPtr->Children[0]->DataList);
+            break;
+        case 27:
+            switch (CurrPtr->Children[1]->FuncID)
+            {
+            case 13:
+                CurrPtr->DataList = MyMethods.MapAdd(CurrPtr->Children[0]->DataList);
+                break;
+            case 14:
+                CurrPtr->DataList = MyMethods.MapSub(CurrPtr->Children[0]->DataList);
+                break;
+            case 15:
+                CurrPtr->DataList = MyMethods.MapMult2(CurrPtr->Children[0]->DataList);
+                break;
+            case 16:
+                CurrPtr->DataList = MyMethods.MapDiv2(CurrPtr->Children[0]->DataList);
+                break;
+            case 17:
+                CurrPtr->DataList = MyMethods.MapMult3(CurrPtr->Children[0]->DataList);
+                break;
+            case 18:
+                CurrPtr->DataList = MyMethods.MapDiv3(CurrPtr->Children[0]->DataList);
+                break;
+            case 19:
+                CurrPtr->DataList = MyMethods.MapMult4(CurrPtr->Children[0]->DataList);
+                break;
+            case 20:
+                CurrPtr->DataList = MyMethods.MapDiv4(CurrPtr->Children[0]->DataList);
+                break;
+            case 21:
+                CurrPtr->DataList = MyMethods.MapPow(CurrPtr->Children[0]->DataList);
+                break;
+            case 22:
+                CurrPtr->DataList = MyMethods.MapNeg(CurrPtr->Children[0]->DataList);
+                break;
+           }
+            break;
+        case 28:
+            switch (CurrPtr->Children[1]->FuncID)
+            {
+            case 23:
+                CurrPtr->DataList = MyMethods.FilterGZ(CurrPtr->Children[0]->DataList);
+                break;
+            case 24:
+                CurrPtr->DataList = MyMethods.FilterLZ(CurrPtr->Children[0]->DataList);
+                break;
+            case 25:
+                CurrPtr->DataList = MyMethods.FilterEven(CurrPtr->Children[0]->DataList);
+                break;
+            case 26:
+                CurrPtr->DataList = MyMethods.FilterOdd(CurrPtr->Children[0]->DataList);
+                break;
+            }
+            break;
+        case 29:
+            switch (CurrPtr->Children[1]->FuncID)
+            {
+            case 23:
+                CurrPtr->DataInt = MyMethods.CountGZ(CurrPtr->Children[0]->DataList);
+                break;
+            case 24:
+                CurrPtr->DataInt = MyMethods.CountLZ(CurrPtr->Children[0]->DataList);
+                break;
+            case 25:
+                CurrPtr->DataInt = MyMethods.CountEven(CurrPtr->Children[0]->DataList);
+                break;
+            case 26:
+                CurrPtr->DataInt = MyMethods.CountOdd(CurrPtr->Children[0]->DataList);
+                break;
+            }
+            break;
+        case 30:
+            CurrPtr->DataList = MyMethods.ZipWithSum(CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataList);
+            break;
+        case 31:
+            CurrPtr->DataList = MyMethods.ZipWithDif(CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataList);
+            break;
+        case 32:
+            CurrPtr->DataList = MyMethods.ZipWithMult(CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataList);
+            break;
+        case 33:
+            CurrPtr->DataList = MyMethods.ZipWithMin(CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataList);
+            break;
+        case 34:
+            CurrPtr->DataList = MyMethods.ZipWithMax(CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataList);
+            break;
+        case 35:
+            CurrPtr->DataList = MyMethods.ScanL1Sum(CurrPtr->Children[0]->DataList);
+            break;
+        case 36:
+            CurrPtr->DataList = MyMethods.ScanL1Dif(CurrPtr->Children[0]->DataList);
+            break;
+        case 37:
+            CurrPtr->DataList = MyMethods.ScanL1Mult(CurrPtr->Children[0]->DataList);
+            break;
+        case 38:
+            CurrPtr->DataList = MyMethods.ScanL1Min(CurrPtr->Children[0]->DataList);
+            break;
+        case 39:
+            CurrPtr->DataList = MyMethods.ScanL1Max(CurrPtr->Children[0]->DataList);
+            break;
         }
-
 
         i++;
     }
