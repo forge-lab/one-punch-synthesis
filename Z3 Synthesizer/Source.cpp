@@ -7,49 +7,13 @@
 #include "DSL.h"
 #include "Tree.h"
 #include "TestingFramework.h"
+#include "reader.h"
 using namespace z3;
 
 #include "timer.h"
 
 
-enum class IO
-{
-    I, //0
-    L,
-    IL,
-    LL,
-    II
-};
 
-class solutionc
-{
-public:
-    std::vector<int> INPUTINTS;
-    std::vector<std::vector<int>> INPUTLISTS;
-    int OUTPUTINT;
-    std::vector<int> OUTPUTLIST;
-    IO INPUTVALS;
-    IO OUTPUTVAL;
-    int numofexamples;
-    solutionc()
-    {
-        //will read this from file
-        numofexamples = 1;
-        INPUTINTS.push_back(2);
-        INPUTLISTS.push_back({ 3,5,4,7,5 });
-        OUTPUTINT = 7;
-        INPUTVALS = IO::IL;
-        OUTPUTVAL = IO::I;
-        
-
-
-        switch (INPUTVALS)
-        {
-
-        }
-        
-    }
-};
 
 /*
 
@@ -390,7 +354,9 @@ void run()
     MyDSL.print();
     std::cout << std::endl;
     bool solved = false;
+    
 
+    reader textinfo;
 
     //print matches
     for (auto a : MyDSL.Matches)
@@ -422,7 +388,7 @@ void run()
 int main()
 {
 
-    run();
+    //run();
 
 
 
