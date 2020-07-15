@@ -6,6 +6,7 @@
 #include <stack>
 #include "DSL.h"
 
+
 bool testing(Trie& T,int OUTPUT,std::vector<int> INPUTLIST,int INPUTNUM)
 {
 

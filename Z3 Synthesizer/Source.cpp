@@ -9,6 +9,47 @@
 #include "TestingFramework.h"
 using namespace z3;
 
+#include "timer.h"
+
+
+enum class IO
+{
+    I, //0
+    L,
+    IL,
+    LL,
+    II
+};
+
+class solutionc
+{
+public:
+    std::vector<int> INPUTINTS;
+    std::vector<std::vector<int>> INPUTLISTS;
+    int OUTPUTINT;
+    std::vector<int> OUTPUTLIST;
+    IO INPUTVALS;
+    IO OUTPUTVAL;
+    int numofexamples;
+    solutionc()
+    {
+        //will read this from file
+        numofexamples = 1;
+        INPUTINTS.push_back(2);
+        INPUTLISTS.push_back({ 3,5,4,7,5 });
+        OUTPUTINT = 7;
+        INPUTVALS = IO::IL;
+        OUTPUTVAL = IO::I;
+        
+
+
+        switch (INPUTVALS)
+        {
+
+        }
+        
+    }
+};
 
 /*
 
@@ -27,17 +68,45 @@ Questions:
 */
 
 /*
-todo:
-make testing framework modular
-try examples
-manually write list of properties that could be used for pruning (min,max,first,last,size,unique)
-look at json thing,
+create class: 
+solutions
+will have vector of ints, vector of vectors
+will have string name inputvals with either E, I, L, IL,LL,II (empty, intege,list, integerlist,listlist,intint)
+will have sinlge int and single vect as output
+will have string name outputvals with either E, I, L (empty, integer, list)
+switch(inpuvals). switch will add appropriate components to DSL, and pass the output val to solver to set rule for first node
+
+File template:
+(INT) (Valueofint) (LIST) (values) (endsentinel) (LIST) (values) *
+(LIST) (valuesoflist) *
+(INT) (Valueofint) (LIST) (values) (endsentinel) (LIST) (values) *
+(LIST) (valuesoflist) *
+(INT) (Valueofint) (LIST) (values) (endsentinel) (LIST) (values) *
+(LIST) (valuesoflist) *
+(INT) (Valueofint) (LIST) (values) (endsentinel) (LIST) (values) *
+(LIST) (valuesoflist) *
+
+in testingframework, will take in this class, and for inputvals, will have appropriate template
+
 
 */
 /*
-1) Create two-phase solver
+1) create system to read examples
 2) Add multiple testing cases for test framework
-3) Fix access??
+3) Fix access
+4) Make list of possible pruning specs
+5) add pruning (max,min, etc)
+
+
+*/
+
+/*
+performance
+Speed: depth 4, 0.0080 ~0.0095, the more it runs the more it leans toward the latter. occasionally spikes to ~0.0150 - 0.0200
+18min, spikes increasing in regularity. 0.82ish still common tho.
+19m 71mb
+23min, spikes of 0.25 occuring. 83mb, 0.0095-0.0110 more common. half are still 0.008ish
+2.7min
 
 */
 /*
@@ -50,7 +119,7 @@ Issue: Need to make Methods more modular, expand to include full DSL
 */
 
 /*
-use chrono to time for each enum
+
 https://sat-group.github.io/ruben/papers/pldi18.pdf
 section 1/2
 
@@ -234,10 +303,6 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
         s.add(implies(mk_or(haslines), vars_i[i] == 1));
         s.add(implies(mk_or(nolines), vars_i[i] == 0));
         
-
-        
-        //s.add(implies(vars[i] == 1 || vars[i] == 2 || vars[i] ==3|| vars[i] == 6 || vars[i] == 7 || vars[i] == 8 || vars[i] == 9 || vars[i] == 10 || vars[i] == 11 || vars[i] == 12 , vars_i[i] == 1));
-        //s.add(implies(vars[i] == 0 || vars[i] == 4 || vars[i] == 5, vars_i[i] == 0));
     }
     s.add(sum(vars_i) == MaxLines);
 
@@ -247,12 +312,13 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
 
     /*
     */
-    while (s.check() == sat && !solved)//
+   // timer mytimer;
+    while (s.check() == sat )//&& !solved
     {
         count++;
         model m = s.get_model();
-
-        std::cout << "Trying New solution:" << "\n";
+       // mytimer.begin();
+        //std::cout << "Trying New solution with depth: "<<MaxLines << "\n";
         while (!vals.empty())
             vals.pop_back();
         for (unsigned i = 0; i < m.size(); i++)
@@ -303,9 +369,12 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
                     }
 
             }
-            return true;
+            //return true;
+
         }
+        
         s.add(mk_or(vals));
+       // mytimer.print_elapsed();
     }
     std::cout << count << std::endl;
     return false;
@@ -341,7 +410,7 @@ void run()
     std::cout << std::endl;
 
     int iMax = 1;
-    while (!solved)
+    while (!solved && iMax<5)
     {
         solved = tree(iMax,MyDSL, Type::INTEGER, OUTPUT, INPUTLIST, INPUTNUM);
         iMax++;
@@ -353,8 +422,8 @@ void run()
 int main()
 {
 
-
     run();
+
 
 
 
