@@ -30,6 +30,8 @@ public:
 	{
 		switch (ID)
 		{
+
+
 		case 10:
 			return Access(IN1, IN2);
 		}
@@ -89,6 +91,7 @@ public:
 	}
 	int Access(std::vector<int> in1, int in2) //problem with access???
 	{
+
 		if (in2 > in1.size() || in2 <= 0)
 			return NULL;
 		return in1[in2 - 1]; 

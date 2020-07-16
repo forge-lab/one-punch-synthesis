@@ -320,12 +320,23 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
         }
         std::cout << std::endl;
         AssignIDs(MyTree, fIDs);
+
+        /*
+        access
+        b
+        k
+        */
+
         for (auto a : textinfo.examples)
         {
             solved = testing(MyTree, a);
+
+
             if (!solved)
                 break;
         }
+
+
         if (solved)
         {
             for (int k = 0; k < m.size() / 2; k++)
@@ -335,7 +346,6 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
                     if (a.ID == RESULTS[k])
                     {
                         std::cout << a.Name << std::endl;
-
                     }
 
             }

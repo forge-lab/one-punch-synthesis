@@ -58,8 +58,9 @@ bool testing(Trie& T,example example1)
                 break;
             case IO::I:
             case IO::II:
-            case IO::IL:
+            case IO::IL: //CHANGE ORDER MUST BE L BEFORE I
                 CurrPtr->DataInt = example1.INPUTINTS[0];
+                break;
             }
             break;
         case 5:
@@ -69,11 +70,15 @@ bool testing(Trie& T,example example1)
                 CurrPtr->DataInt = example1.INPUTINTS[1];
                 break;
             case IO::IL:
+                CurrPtr->DataList = example1.INPUTLISTS[0];
+                break;
             case IO::LL:
                 CurrPtr->DataList = example1.INPUTLISTS[1];
+                break;
             }
             break;
         case 10:
+
             CurrPtr->DataInt = MyMethods.UseFunctionI_LI(CurrPtr->FuncID, CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataInt);
             break;
         case 2:
@@ -186,6 +191,9 @@ bool testing(Trie& T,example example1)
 
     switch (example1.Out)
     {
+
+
+
     case IO::I:
         if (CurrPtr->DataInt == example1.OUTPUTINT)
         {
