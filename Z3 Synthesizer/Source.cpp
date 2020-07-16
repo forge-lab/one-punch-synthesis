@@ -95,14 +95,15 @@ Add restriction that forces solver to use ALL inputs at least once (B and K in t
 
 */
 
-bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<int> INPUTLIST, int INPUTNUM)
+
+bool tree(int maxL, const DSL& MyDSL, reader textinfo)
 {
 
     std::unordered_map<int, int> RESULTS;
     int MaxInputs = MyDSL.MaxInputs;
     int MaxLines = maxL;
 
-    Trie MyTree(MaxLines, MaxInputs); //Depth of 3 is hardcoded, number of children is not
+    Trie MyTree(MaxLines, MaxInputs); 
     Node* HeadPtr = MyTree.returnhead();
     assert(HeadPtr);
 
@@ -136,11 +137,15 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
 
     s.add(vars[i] >= 0 && vars[i] <= int(MyDSL.Components.size())); // All nodes must have valid ID, i.e. 0 to 5
 
-
+    Type CONVERTED;
+    if (textinfo.examples[0].Out == IO::I)
+        CONVERTED = Type::INTEGER;
+    else
+        CONVERTED = Type::LIST;
     //FIRST NODE must return the type specified in the DSL. It checkes which components to see which IDs are valid in this case
     for (auto a : MyDSL.Components)
     {
-        if (a.Output == ResultType)
+        if (a.Output == CONVERTED )
         {
             validcomponents.push_back(vars[i] == a.ID);
         }
@@ -231,9 +236,6 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
     int count = 0;
     std::cout << s.check() << std::endl;
     bool solved = false;
- /*
- depth = lines of code;
- */
 
 
 
@@ -274,8 +276,6 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
 
 
 
-    /*
-    */
    // timer mytimer;
     while (s.check() == sat )//&& !solved
     {
@@ -307,19 +307,25 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
         fIDs.clear();
         for (int k = 0; k < m.size() / 2; k++)
         {
-            //std::cout << k << ' ';
+            std::cout << k << ' ';
             for (auto a : MyDSL.Components)
             {
                 if (a.ID == RESULTS[k])
                 {
-                   // std::cout << a.Name << std::endl;
+                    std::cout << a.Name << std::endl;
                     fIDs.push_back(a.ID);
                 }
             }
 
         }
+        std::cout << std::endl;
         AssignIDs(MyTree, fIDs);
-        solved = testing(MyTree, OUTPUT, INPUTLIST, INPUTNUM);
+        for (auto a : textinfo.examples)
+        {
+            solved = testing(MyTree, a);
+            if (!solved)
+                break;
+        }
         if (solved)
         {
             for (int k = 0; k < m.size() / 2; k++)
@@ -333,7 +339,7 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
                     }
 
             }
-            //return true;
+            return true;
 
         }
         
@@ -344,19 +350,28 @@ bool tree(int maxL, const DSL& MyDSL, Type ResultType, int OUTPUT, std::vector<i
     return false;
 }
 
-
-void run()
+/*
+DSL constructor - rremove type thing
+initializer - remove B and K
+editor - add appropriate ones
+make sure to rebuild DSL for every example
+*/
+void run(std::string filename)
 {
-    DSL MyDSL(Type::INTEGER);
-    int OUTPUT = 7;
-    std::vector<int> INPUTLIST = { 3,5,4,7,5 };
-    int INPUTNUM = 2;
+
+  
+
+
+    reader textinfo;
+    if(!textinfo.open(filename))
+        return;
+    DSL MyDSL(textinfo);
     MyDSL.print();
     std::cout << std::endl;
     bool solved = false;
     
-
-    reader textinfo;
+    
+  
 
     //print matches
     for (auto a : MyDSL.Matches)
@@ -374,22 +389,32 @@ void run()
         std::cout << std::endl;
     }
     std::cout << std::endl;
-
     int iMax = 1;
-    while (!solved && iMax<5)
-    {
-        solved = tree(iMax,MyDSL, Type::INTEGER, OUTPUT, INPUTLIST, INPUTNUM);
-        iMax++;
-    }
+
+ 
+
+    iMax = 1;
+
+
+   while (!solved && iMax < 5)
+   {
+       solved = tree(iMax, MyDSL, textinfo);
+       iMax++;
+   }
+
+   
 }
 
+/*
+Program5 is unsolvable for current system, unknown issue
+
+*/
 
 
 int main()
 {
-
-    //run();
-
+   for(int i =0;i<5;i++)
+       run("program" + std::to_string(i) + ".txt");
 
 
 

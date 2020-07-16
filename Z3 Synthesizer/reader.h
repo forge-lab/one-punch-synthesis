@@ -23,7 +23,7 @@ struct example
     std::vector<std::vector<int>> INPUTLISTS;
     int OUTPUTINT;
     std::vector<int> OUTPUTLIST;
-    
+
     void IOCheck()
     {
         if (INPUTINTS.size() == 2)
@@ -54,19 +54,20 @@ public:
     std::vector<example> examples;
 
     int numofexamples;
-    reader()
+    bool open(std::string filename)
     {
+        examples.clear();
         std::vector<int> tempv;
         std::ifstream myfile;
         std::string line;
-        myfile.open("examples.txt", std::ios::in);
+        myfile.open(filename, std::ios::in);
         int str_i = 0;
         int numtemp = 0;
         int linenum = 0;
         numofexamples = 0;
         if (myfile.is_open())
         {
-         
+
             while (std::getline(myfile, line))
             {
                 str_i = 0;
@@ -74,7 +75,7 @@ public:
                 while (str_i < line.length())
                 {
                     numtemp = 0;
-                    
+
                     if (line[str_i] == '0')
                     {
                         str_i += 2;
@@ -94,11 +95,11 @@ public:
                         numtemp = 0;
                         str_i++;
                     }
-                    else if(line[str_i] =='1')
+                    else if (line[str_i] == '1')
                     {
                         str_i += 2;
                         while (str_i < line.length() && line[str_i] != '*')
-                        {                  
+                        {
 
                             while (str_i < line.length() && line[str_i] != ' ')
                             {
@@ -118,7 +119,7 @@ public:
                             examples[numofexamples].OUTPUTLIST = tempv;
                         }
                         tempv.clear();
-                        str_i+=2;
+                        str_i += 2;
                     }
                 }
                 linenum++;
@@ -127,16 +128,20 @@ public:
             }
 
 
-         
+
 
             myfile.close();
-            
+
         }
-        else std::cerr << "ERROR OPENING FILE" << std::endl;
+        else {
+            std::cerr << "ERROR OPENING FILE WITH FILENAME" << filename << std::endl;
+            return false;
+        }
         //will read this from file
 
         for (std::vector<example>::iterator it = examples.begin(); it != examples.end(); it++)
             (*it).IOCheck();
+        return true;
 
     }
 };

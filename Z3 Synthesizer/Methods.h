@@ -232,6 +232,7 @@ public:
 			else
 				it++;
 		}
+
 		return in1;
 	}
 
@@ -327,6 +328,8 @@ public:
 
 	std::vector<int> ScanL1Sum(std::vector<int>in1)
 	{
+		if (in1.size() == 0)
+			return in1;
 		std::vector<int> returnv(in1.size());
 		returnv[0] = in1[0];
 
@@ -338,6 +341,10 @@ public:
 	}
 	std::vector<int> ScanL1Dif(std::vector<int>in1)
 	{
+		if (in1.size() == 0)
+			return in1;
+		if (in1.size() == 0)
+			return in1;
 		std::vector<int> returnv(in1.size());
 		returnv[0] = in1[0];
 
@@ -349,6 +356,8 @@ public:
 	}
 	std::vector<int> ScanL1Mult(std::vector<int>in1)
 	{
+		if (in1.size() == 0)
+			return in1;
 		std::vector<int> returnv(in1.size());
 		returnv[0] = in1[0];
 
@@ -360,6 +369,8 @@ public:
 	}
 	std::vector<int> ScanL1Max(std::vector<int>in1)
 	{
+		if (in1.size() == 0)
+			return in1;
 		std::vector<int> returnv(in1.size());
 		returnv[0] = in1[0];
 
@@ -371,6 +382,8 @@ public:
 	}
 	std::vector<int> ScanL1Min(std::vector<int>in1)
 	{
+		if (in1.size() == 0)
+			return in1;
 		std::vector<int> returnv(in1.size());
 		returnv[0] = in1[0];
 

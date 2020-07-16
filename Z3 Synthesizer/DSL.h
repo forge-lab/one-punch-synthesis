@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <set>
+#include "reader.h"
 
 
 enum class Type
@@ -43,16 +44,39 @@ public:
     std::vector<MatchIO> Matches;
 
     //public:
-    DSL(Type R)
+    DSL(reader textinfo)
     {
         //Creating all components
         Components.push_back(Component("Empty", Type::EMPTY, std::vector<Type>(), 0,false)); //Empty component
         Components.push_back(Component("Take", Type::LIST, std::vector<Type>{Type::LIST, Type::INTEGER}, 1)); //Take component
         Components.push_back(Component("Sort", Type::LIST, std::vector<Type>{Type::LIST}, 2)); //Sort component
         Components.push_back(Component("Sum", Type::INTEGER, std::vector<Type>{Type::LIST}, 3)); //Sum component
-        Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false)); //B List component
-        Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5,false)); //K Integer component
+        //Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false)); //B List component
+        //Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5,false)); //K Integer component
+        
+        switch (textinfo.examples[0].Ins)
+        {
+        case IO::I:
+            Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5, false));
+            break;
+        case IO::L:
+            Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false));
+            break;
+        case IO::IL:
+            Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false)); //B List component
+            Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5,false)); //K Integer component
+            break;
+        case IO::II:
+            Components.push_back(Component("K1", Type::INTEGER, std::vector<Type>(), 4, false)); //k1 int component
+            Components.push_back(Component("K2", Type::INTEGER, std::vector<Type>(), 5,false)); //K2 Integer component
+            break;
+        case IO::LL:
+            Components.push_back(Component("B1", Type::LIST, std::vector<Type>(), 4, false)); //B List component
+            Components.push_back(Component("B2", Type::LIST, std::vector<Type>(), 5, false)); //K Integer component
+            break;
 
+
+        }
         //takes about 10 minutes to generate 21741 programs, not using the ones numbered 6-12
         
         

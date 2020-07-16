@@ -4,10 +4,11 @@
 #include "Methods.h"
 #include <iostream>
 #include <stack>
+#include "reader.h"
 #include "DSL.h"
 
 
-bool testing(Trie& T,int OUTPUT,std::vector<int> INPUTLIST,int INPUTNUM)
+bool testing(Trie& T,example example1)
 {
 
     //int StartingDepth=
@@ -49,10 +50,28 @@ bool testing(Trie& T,int OUTPUT,std::vector<int> INPUTLIST,int INPUTNUM)
             CurrPtr->DataInt = MyMethods.UseFunctionI_L(CurrPtr->FuncID, CurrPtr->Children[0]->DataList);
             break;
         case 4:
-            CurrPtr->DataList = INPUTLIST;
+            switch (example1.Ins)
+            {
+            case IO::L:
+            case IO::LL:
+                CurrPtr->DataList = example1.INPUTLISTS[0];
+                break;
+            case IO::I:
+            case IO::II:
+            case IO::IL:
+                CurrPtr->DataInt = example1.INPUTINTS[0];
+            }
             break;
         case 5:
-            CurrPtr->DataInt = INPUTNUM;
+            switch (example1.Ins)
+            {
+            case IO::II:
+                CurrPtr->DataInt = example1.INPUTINTS[1];
+                break;
+            case IO::IL:
+            case IO::LL:
+                CurrPtr->DataList = example1.INPUTLISTS[1];
+            }
             break;
         case 10:
             CurrPtr->DataInt = MyMethods.UseFunctionI_LI(CurrPtr->FuncID, CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataInt);
@@ -165,13 +184,25 @@ bool testing(Trie& T,int OUTPUT,std::vector<int> INPUTLIST,int INPUTNUM)
     }
 
 
-
-    if (CurrPtr->DataInt == OUTPUT)
+    switch (example1.Out)
     {
-        std::cout << "IT WORKSSSSSSSSSSSSS heres the solution" << std::endl;
-        return true;
+    case IO::I:
+        if (CurrPtr->DataInt == example1.OUTPUTINT)
+        {
+            std::cout << "Passed test" << std::endl;
+            return true;
+        }
+        else
+            return false;
+    case IO::L:
+        if (CurrPtr->DataList == example1.OUTPUTLIST)
+        {
+            std::cout << "Passed test" << std::endl;
+            return true;
+        }
+        else
+            return false;
     }
-    return false;
 
 
     
