@@ -9,7 +9,7 @@ enum class IO
 {
     I, //0
     L,
-    IL,
+    LI,
     LL,
     II
 };
@@ -29,7 +29,7 @@ struct example
         if (INPUTINTS.size() == 2)
             Ins = IO::II;
         else if (INPUTINTS.size() == 1 && INPUTLISTS.size() == 1)
-            Ins = IO::IL;
+            Ins = IO::LI;
         else if (INPUTINTS.size() == 1 && INPUTLISTS.size() == 0)
             Ins = IO::I;
         else if (INPUTINTS.size() == 0 && INPUTLISTS.size() == 2)
@@ -134,7 +134,7 @@ public:
 
         }
         else {
-            std::cerr << "ERROR OPENING FILE WITH FILENAME" << filename << std::endl;
+            std::cerr << "ERROR OPENING FILE WITH FILENAME " << filename << std::endl;
             return false;
         }
         //will read this from file

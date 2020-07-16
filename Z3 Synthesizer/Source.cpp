@@ -307,25 +307,19 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
         fIDs.clear();
         for (int k = 0; k < m.size() / 2; k++)
         {
-            std::cout << k << ' ';
+            //std::cout << k << ' ';
             for (auto a : MyDSL.Components)
             {
                 if (a.ID == RESULTS[k])
                 {
-                    std::cout << a.Name << std::endl;
+                    //std::cout << a.Name << std::endl;
                     fIDs.push_back(a.ID);
                 }
             }
 
         }
-        std::cout << std::endl;
+       // std::cout << std::endl;
         AssignIDs(MyTree, fIDs);
-
-        /*
-        access
-        b
-        k
-        */
 
         for (auto a : textinfo.examples)
         {
@@ -361,10 +355,9 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
 }
 
 /*
-DSL constructor - rremove type thing
-initializer - remove B and K
-editor - add appropriate ones
-make sure to rebuild DSL for every example
+print all number enumerated before finding correct (or fialing to find)
+fix texting framework
+
 */
 void run(std::string filename)
 {
@@ -415,10 +408,6 @@ void run(std::string filename)
    
 }
 
-/*
-Program5 is unsolvable for current system, unknown issue
-
-*/
 
 
 int main()

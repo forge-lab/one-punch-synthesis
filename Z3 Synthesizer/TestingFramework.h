@@ -54,11 +54,11 @@ bool testing(Trie& T,example example1)
             {
             case IO::L:
             case IO::LL:
+            case IO::LI:
                 CurrPtr->DataList = example1.INPUTLISTS[0];
                 break;
             case IO::I:
             case IO::II:
-            case IO::IL: //CHANGE ORDER MUST BE L BEFORE I
                 CurrPtr->DataInt = example1.INPUTINTS[0];
                 break;
             }
@@ -69,8 +69,8 @@ bool testing(Trie& T,example example1)
             case IO::II:
                 CurrPtr->DataInt = example1.INPUTINTS[1];
                 break;
-            case IO::IL:
-                CurrPtr->DataList = example1.INPUTLISTS[0];
+            case IO::LI:
+                CurrPtr->DataInt = example1.INPUTINTS[0];
                 break;
             case IO::LL:
                 CurrPtr->DataList = example1.INPUTLISTS[1];
@@ -197,7 +197,7 @@ bool testing(Trie& T,example example1)
     case IO::I:
         if (CurrPtr->DataInt == example1.OUTPUTINT)
         {
-            std::cout << "Passed test" << std::endl;
+            //std::cout << "Passed test" << std::endl;
             return true;
         }
         else
@@ -205,7 +205,7 @@ bool testing(Trie& T,example example1)
     case IO::L:
         if (CurrPtr->DataList == example1.OUTPUTLIST)
         {
-            std::cout << "Passed test" << std::endl;
+            //std::cout << "Passed test" << std::endl;
             return true;
         }
         else

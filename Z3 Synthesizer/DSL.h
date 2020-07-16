@@ -62,7 +62,7 @@ public:
         case IO::L:
             Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false));
             break;
-        case IO::IL:
+        case IO::LI:
             Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false)); //B List component
             Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5,false)); //K Integer component
             break;
@@ -77,7 +77,6 @@ public:
 
 
         }
-        //takes about 10 minutes to generate 21741 programs, not using the ones numbered 6-12
         
         
         Components.push_back(Component("Reverse", Type::LIST, std::vector<Type>{Type::LIST}, 6));
