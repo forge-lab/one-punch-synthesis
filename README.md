@@ -29,3 +29,8 @@ Open z3++.h, and there will be a line that includes z3.h. Change <z3.h> to "z3.h
 
 ### Step 8:
 Run the sample code provided by Microsoft to ensure it is working correctly with no errors, and you should be good to go!
+
+
+
+
+Note: all component IDs MUST be in-order. Skipping numbers will cause problems during enumeration
