@@ -112,6 +112,8 @@ public:
 	}
 	int Maximum(std::vector<int> in1)
 	{
+
+
 		if (!in1.size())
 			return NULL;
 		return *std::max_element(in1.begin(), in1.end());
@@ -170,8 +172,12 @@ public:
 	}
 	std::vector<int> MapMult3(std::vector<int> in1)
 	{
+
+
 		for (std::vector<int>::iterator it = in1.begin(); it != in1.end(); it++)
 			(*it) *= 3;
+
+
 		return in1;
 	}
 	std::vector<int> MapDiv3(std::vector<int> in1)
@@ -312,6 +318,7 @@ public:
 	}
 	std::vector<int> ZipWithMax(std::vector<int>in1, std::vector<int>in2)
 	{
+
 		std::vector<int> returnv(std::min(in1.size(), in2.size()));
 
 		for (int i = 0; i < returnv.size(); i++)

@@ -82,9 +82,11 @@ bool testing(Trie& T,example example1)
             CurrPtr->DataInt = MyMethods.UseFunctionI_LI(CurrPtr->FuncID, CurrPtr->Children[0]->DataList, CurrPtr->Children[1]->DataInt);
             break;
         case 2:
+        case 6:
             CurrPtr->DataList = MyMethods.UseFunctionL_L(CurrPtr->FuncID, CurrPtr->Children[0]->DataList);
             break;
         case 27:
+
             switch (CurrPtr->Children[1]->FuncID)
             {
             case 13:
@@ -187,6 +189,9 @@ bool testing(Trie& T,example example1)
 
         i++;
     }
+
+
+
 
 
     switch (example1.Out)

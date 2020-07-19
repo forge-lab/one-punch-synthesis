@@ -48,74 +48,71 @@ public:
     {
         //Creating all components
         Components.push_back(Component("Empty", Type::EMPTY, std::vector<Type>(), 0,false)); //Empty component
-        Components.push_back(Component("Take", Type::LIST, std::vector<Type>{Type::LIST, Type::INTEGER}, 1)); //Take component
-        Components.push_back(Component("Sort", Type::LIST, std::vector<Type>{Type::LIST}, 2)); //Sort component
-        Components.push_back(Component("Sum", Type::INTEGER, std::vector<Type>{Type::LIST}, 3)); //Sum component
-        //Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false)); //B List component
-        //Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5,false)); //K Integer component
-        
+       Components.push_back(Component("Take", Type::LIST, std::vector<Type>{Type::LIST, Type::INTEGER}, 1)); //Take component
+       Components.push_back(Component("Sort", Type::LIST, std::vector<Type>{Type::LIST}, 2)); //Sort component
+       Components.push_back(Component("Sum", Type::INTEGER, std::vector<Type>{Type::LIST}, 3)); 
         switch (textinfo.examples[0].Ins)
         {
         case IO::I:
-            Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5, false));
+            Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 4, false));
             break;
         case IO::L:
             Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false));
             break;
         case IO::LI:
             Components.push_back(Component("B", Type::LIST, std::vector<Type>(), 4, false)); //B List component
-            Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5,false)); //K Integer component
+            Components.push_back(Component("K", Type::INTEGER, std::vector<Type>(), 5, false)); //K Integer component
             break;
         case IO::II:
             Components.push_back(Component("K1", Type::INTEGER, std::vector<Type>(), 4, false)); //k1 int component
-            Components.push_back(Component("K2", Type::INTEGER, std::vector<Type>(), 5,false)); //K2 Integer component
+            Components.push_back(Component("K2", Type::INTEGER, std::vector<Type>(), 5, false)); //K2 Integer component
             break;
         case IO::LL:
             Components.push_back(Component("B1", Type::LIST, std::vector<Type>(), 4, false)); //B List component
             Components.push_back(Component("B2", Type::LIST, std::vector<Type>(), 5, false)); //K Integer component
             break;
-
-
         }
+
         
-        
-        Components.push_back(Component("Reverse", Type::LIST, std::vector<Type>{Type::LIST}, 6));
+       Components.push_back(Component("Reverse", Type::LIST, std::vector<Type>{Type::LIST}, 6));
         Components.push_back(Component("Head", Type::INTEGER, std::vector<Type>{Type::LIST}, 7));
-        Components.push_back(Component("Last", Type::INTEGER, std::vector<Type>{Type::LIST}, 8));
-        Components.push_back(Component("Drop", Type::LIST, std::vector<Type>{Type::LIST,Type::INTEGER}, 9));
+       Components.push_back(Component("Last", Type::INTEGER, std::vector<Type>{Type::LIST}, 8));
+      Components.push_back(Component("Drop", Type::LIST, std::vector<Type>{Type::LIST,Type::INTEGER}, 9));
         Components.push_back(Component("Access", Type::INTEGER, std::vector<Type>{Type::LIST,Type::INTEGER}, 10));
         Components.push_back(Component("Minimum", Type::INTEGER, std::vector<Type>{Type::LIST}, 11));
-        Components.push_back(Component("Maximum", Type::INTEGER, std::vector<Type>{Type::LIST}, 12));
+        Components.push_back(Component("Maximum", Type::INTEGER, std::vector<Type>{Type::LIST}, 12)); 
         
         
         //Functions for HOF Map
      
-        Components.push_back(Component("AddOneLambda", Type::LAMBDA_INT, std::vector<Type>{}, 13));
-        Components.push_back(Component("SubOneLambda", Type::LAMBDA_INT, std::vector<Type>{}, 14));
-        Components.push_back(Component("Mult2Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 15));
-        Components.push_back(Component("Div2Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 16));
-        Components.push_back(Component("Mult3Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 17));
-        Components.push_back(Component("Div3Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 18));
-        Components.push_back(Component("Mult4Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 19));
-        Components.push_back(Component("Div4Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 20));
-        Components.push_back(Component("Pow2Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 21));
-        Components.push_back(Component("NegateLambda", Type::LAMBDA_INT, std::vector<Type>{}, 22));
+        
+        Components.push_back(Component("AddOneLambda", Type::LAMBDA_INT, std::vector<Type>{}, 13,false));
+        Components.push_back(Component("SubOneLambda", Type::LAMBDA_INT, std::vector<Type>{}, 14,false));
+        Components.push_back(Component("Mult2Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 15,false));
+        Components.push_back(Component("Div2Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 16,false));
+        Components.push_back(Component("Mult3Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 17,false));
+        Components.push_back(Component("Div3Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 18,false));
+        Components.push_back(Component("Mult4Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 19,false));
+        Components.push_back(Component("Div4Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 20,false));
+        Components.push_back(Component("Pow2Lambda", Type::LAMBDA_INT, std::vector<Type>{}, 21,false));
+        Components.push_back(Component("NegateLambda", Type::LAMBDA_INT, std::vector<Type>{}, 22,false));
         //Functions for HOF Filter and Count
-        Components.push_back(Component("GZLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 23));
-        Components.push_back(Component("LZLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 24));
-        Components.push_back(Component("IsEvenLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 25));
-        Components.push_back(Component("IsOddLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 26));
-        //HOF
+
+        Components.push_back(Component("GZLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 23,false));
+        Components.push_back(Component("LZLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 24,false));
+        Components.push_back(Component("IsEvenLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 25,false));
+        Components.push_back(Component("IsOddLambda", Type::LAMBDA_BOOL, std::vector<Type>{}, 26,false));
+        //HOF 
         Components.push_back(Component("Map", Type::LIST, std::vector<Type>{Type::LIST,Type::LAMBDA_INT}, 27));
         Components.push_back(Component("Filter", Type::LIST, std::vector<Type>{Type::LIST,Type::LAMBDA_BOOL}, 28));
         Components.push_back(Component("Count", Type::INTEGER, std::vector<Type>{Type::LIST,Type::LAMBDA_BOOL}, 29));
-
+        
         Components.push_back(Component("ZipWithSum", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 30));
-        Components.push_back(Component("ZipWithDif", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 31));
+       Components.push_back(Component("ZipWithDif", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 31));
         Components.push_back(Component("ZipWithMult", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 32));
         Components.push_back(Component("ZipWithMin", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 33));
         Components.push_back(Component("ZipWithMax", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 34));
-
+       
         Components.push_back(Component("ScanL1Sum", Type::LIST, std::vector<Type>{Type::LIST}, 35));
         Components.push_back(Component("ScanL1Dif", Type::LIST, std::vector<Type>{Type::LIST}, 36));
         Components.push_back(Component("ScanL1Mult", Type::LIST, std::vector<Type>{Type::LIST}, 37));
@@ -123,6 +120,9 @@ public:
         Components.push_back(Component("ScanL1Max", Type::LIST, std::vector<Type>{Type::LIST}, 39));
         
         //MaxInputs keeps track of the maximum number of inputs a component can have
+
+
+
         MaxInputs = 0;
         for (auto a : Components)
             MaxInputs = std::max(MaxInputs, int(a.Inputs.size()));

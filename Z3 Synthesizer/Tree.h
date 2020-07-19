@@ -82,4 +82,26 @@ void AssignIDs(Trie& T, std::vector<int> V)
 
 }
 
+
+
+bool checkifismine(Trie& T, std::vector<int> V)
+{
+    std::queue<Node*> MyQueue;
+    Node* CurrPtr = nullptr;
+    MyQueue.push(T.returnhead());
+    int i = 0;
+    while (!MyQueue.empty())
+    {
+
+        CurrPtr = MyQueue.front();
+        MyQueue.pop();
+        for (auto a : CurrPtr->Children)
+            MyQueue.push(a);
+        if (CurrPtr->FuncID != V[i])
+            return false;
+        i++;
+    }
+    return true;
+}
+
 #endif
