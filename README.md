@@ -33,5 +33,3 @@ Run the sample code provided by Microsoft to ensure it is working correctly with
 
 
 
-Note: all component IDs MUST be in-order. Skipping numbers will cause problems during enumeration
-need to add rule forcing solver to use all given inputs
