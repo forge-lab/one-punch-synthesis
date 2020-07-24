@@ -122,12 +122,12 @@ public:
         Components.push_back(Component("Count", Type::INTEGER, std::vector<Type>{Type::LIST,Type::LAMBDA_BOOL}, 29));
         
         Components.push_back(Component("ZipWithSum", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 30));
-       Components.push_back(Component("ZipWithDif", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 31));
+       Components.push_back(Component("ZipWithDif", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 31,Behavior::MINMINUS,Behavior::MAXMINUS));
         Components.push_back(Component("ZipWithMult", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 32));
-        //zipwithmult implies output max is larger or equal than max of children
-        Components.push_back(Component("ZipWithMin", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 33));
+      
+        Components.push_back(Component("ZipWithMin", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 33,Behavior::NOTDEFINED,Behavior::MAXMINUS));
         
-        Components.push_back(Component("ZipWithMax", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 34));
+        Components.push_back(Component("ZipWithMax", Type::LIST, std::vector<Type>{Type::LIST, Type::LIST}, 34, Behavior::MINPLUS,Behavior::NOTDEFINED));
        
         Components.push_back(Component("ScanL1Sum", Type::LIST, std::vector<Type>{Type::LIST}, 35));
         Components.push_back(Component("ScanL1Dif", Type::LIST, std::vector<Type>{Type::LIST}, 36));

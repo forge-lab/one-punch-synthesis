@@ -24,22 +24,37 @@ p6: 665 // 665 (diff but valid sol)
 p7: 234 // 215
 p8: 347  // 127 (diff but valid sol)
 
-6980//10508
 
-9262 / 8664 (insignificant improvement in real programs)
 
-before prune total//after
-p0: same // 2165//
-p1: 2788 // 10152
-p2: 4068 // 10152
-p3: same // 8145
+*/
+
+
+/*
+real pruning values:
+p0: 70 //596
+p1: 2707 //3220
+p2: 57 //  64
+p3: 727 // 5265
 p4: n/a
-p5: same // 30728
-p6: same (diff but valid sol) // 10152
-p7: 2788 // 10152
-p8: 2650 (diff but valid sol) // 8145
+p5: 141 // 117
+p6: 433 // 665
+p7: 192 //234
+p8: 149 // 347
+total: 4471 // 10507 ~57.44% improvement
+27 seconds vs 60
 
+searchbase:
+p0: 562 // 2165
+p1: 4440 // 10152
+p2: 6684 // 10152
+p3: 3196 //8145
+p4: n/a
+p5: 7667 // 30728
+p6: 3368 // 10152
+p7: 4440 // 10152
+p8: 3196 // 8145
 
+total: 33553 // 89791 ~62.63% improvement
 
 */
 
@@ -465,8 +480,8 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////MAX PRUNING///////////////////////////////////////////////////////////////////////
-    // smaller, same, max 
-    // 3 lines of code: add rule that you must use max at least once
+   
+
 
     
     Behavior ValChangeMax = CheckBehavior(true, textinfo);
@@ -474,7 +489,7 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
 
     //checks if we can apply max/min pruning
     
-
+    
 
     expr_vector pruningrule(c);
     if (ValChangeMax != Behavior::NOTDEFINED || ValChangeMin != Behavior::NOTDEFINED)
@@ -483,7 +498,7 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
         for (auto a : MyDSL.Components)
         {
 
-            if (a.ValChangeMAX == ValChangeMax || a.ValChangeMIN == ValChangeMin)
+            if ((a.ValChangeMAX == ValChangeMax && a.ValChangeMAX != Behavior::NOTDEFINED) || (a.ValChangeMIN == ValChangeMin && a.ValChangeMIN != Behavior::NOTDEFINED))
             {
                 
                 for (int k = 0; k <= i; k++)
@@ -494,12 +509,13 @@ bool tree(int maxL, const DSL& MyDSL, reader textinfo)
             }
             
         }
+        //std::cout << mk_or(pruningrule) << std::endl;
+
         s.add(mk_or(pruningrule));
     }
  
 
    //std::cout << mk_or(pruningrule) << std::endl;
-
    
 
 
@@ -635,7 +651,7 @@ void run(std::string filename)
 
 
 
-   while (!solved && iMax <5)
+   while (!solved && iMax <4)
    {
        solved = tree(iMax, MyDSL, textinfo);
        iMax++;
